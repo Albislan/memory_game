@@ -2,6 +2,11 @@ const cards = document.querySelectorAll('.card');
 let hasFlippedCard = false;
 let firstCard, secondCard;
 let lockBoard = false;
+var somClique = document.getElementById('t_clique');
+var somVitoria = document.getElementById('t_vitoria');
+var somDerrota = document.getElementById('t_derrota');
+var somAcerto = document.getElementById('t_acerto');
+var somFalha = document.getElementById('t_falha');
 
 function flipCard() {
     if(lockBoard) {
@@ -15,6 +20,7 @@ function flipCard() {
     if(!hasFlippedCard) {
         hasFlippedCard = true;
         firstCard = this;
+        somClique.play();
         return;
     }
     secondCard = this;
@@ -29,9 +35,11 @@ cards.forEach((card) => {
 
 function checkForMatch() {
     if(firstCard.dataset.card === secondCard.dataset.card) {
+        somAcerto.play();
         disableCards();
         return
     }
+    somFalha.play();
     unflipCards();
 }
 
@@ -55,9 +63,35 @@ function resetBoard() {
     [firstCard, secondCard] = [null, null];
 }
 
-(function shuffle () {
-    cards.forEach((card) => {
-        let randomPosition = Math.floor(Math.random() * 12);
-        card.style.order = randomPosition;
-    })
-})();
+// (function shuffle () {
+//     cards.forEach((card) => {
+//         let randomPosition = Math.floor(Math.random() * 12);
+//         card.style.order = randomPosition;
+//     })
+// })();
+
+function vitoria() {
+    somVitoria.play();
+    alert('Muito Bem. Voce é fera mesmo hein?\nClique em ok para Jogar uma nova partida');
+    window.location.reload();
+
+}
+function derrota() {
+    somDerrota.play();
+    alert('Que Peninha! Não foi dessa vez!\nQuem sabe voce se da bem na próxima partida');
+    window.location.reload();
+}
+
+
+
+
+function newGame() {
+    alert('Bem Vindo ao Jogo da Memória! \nQuero ver se voce é bom de memória mesmo! \nClique em OK para começar!');
+    (function shuffle () {
+        cards.forEach((card) => {
+            let randomPosition = Math.floor(Math.random() * 12);
+            card.style.order = randomPosition;
+        })
+    })();
+}
+newGame();
